@@ -1,8 +1,5 @@
 # frozen_string_literal: true
 
-# https://gist.github.com/itskingori/aae9a1905cec47f7fd52
-# https://www.nopio.com/blog/rails-api-tests-rspec/
-
 module Api
   module V1
     class PostsController < Api::V1::BaseController
@@ -12,12 +9,12 @@ module Api
       def index
         @posts = Post.all
 
-        render json: @posts
+        render json: Api::V1::PostSerializer.new(@posts).serializable_hash
       end
 
       # GET /posts/1
       def show
-        render json: @post
+        render json: Api::V1::PostSerializer.new(@post).serializable_hash
       end
 
       # POST /posts
@@ -25,7 +22,7 @@ module Api
         @post = Post.new(post_params)
 
         if @post.save
-          render json: @post, status: :created
+          render json: Api::V1::PostSerializer.new(@post).serializable_hash, status: :created
         else
           render json: @post.errors, status: :unprocessable_entity
         end
@@ -34,7 +31,7 @@ module Api
       # PATCH/PUT /posts/1
       def update
         if @post.update(post_params)
-          render json: @post
+          render json: Api::V1::PostSerializer.new(@post).serializable_hash
         else
           render json: @post.errors, status: :unprocessable_entity
         end
