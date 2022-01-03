@@ -51,13 +51,13 @@ RSpec.describe Api::V1::PostsController, type: :controller do
 
       json = JSON.parse(response.body)
 
-      expect(json).to have_key('id')
-      expect(json).to have_key('created_at')
-      expect(json).to have_key('updated_at')
+      expect(json['data']).to have_key('id')
+      expect(json['data']['attributes']).to have_key('created_at')
+      expect(json['data']['attributes']).to have_key('updated_at')
 
-      expect(json[:body]).to eq(post_attributes['body'])
-      expect(json[:title]).to eq(post_attributes['title'])
-      expect(json[:published_at]).to eq(post_attributes['published_at'])
+      expect(json['data']['attributes'][:body]).to eq(post_attributes['body'])
+      expect(json['data']['attributes'][:title]).to eq(post_attributes['title'])
+      expect(json['data']['attributes'][:published_at]).to eq(post_attributes['published_at'])
 
       expect(Post.count).to eq(1)
     end
@@ -81,13 +81,13 @@ RSpec.describe Api::V1::PostsController, type: :controller do
 
       json = JSON.parse(response.body)
 
-      expect(json).to have_key('id')
-      expect(json).to have_key('created_at')
-      expect(json).to have_key('updated_at')
+      expect(json['data']).to have_key('id')
+      expect(json['data']['attributes']).to have_key('created_at')
+      expect(json['data']['attributes']).to have_key('updated_at')
 
-      expect(json['title']).to eq('TITLE UPDATE')
-      expect(json['body']).to eq('BODY UPDATE')
-      expect(json['published_at']).to eq(post['published_at'])
+      expect(json['data']['attributes']['title']).to eq('TITLE UPDATE')
+      expect(json['data']['attributes']['body']).to eq('BODY UPDATE')
+      expect(json['data']['attributes']['published_at']).to eq(post['published_at'])
 
       expect(Post.count).to eq(1)
     end
